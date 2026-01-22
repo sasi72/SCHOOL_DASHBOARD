@@ -53,6 +53,7 @@ export interface Teacher {
     classes: Class[];
     joiningDate: string;
     salary: number;
+    imageUrl?: string;
     isActive: boolean;
 }
 
@@ -78,3 +79,110 @@ export interface Subject {
     isActive: boolean;
 }
 
+export interface Attendence {
+    _id: string;
+    studentId: Student;
+    classId: Class;
+    date: string;
+    status: 'present' | 'absent' | 'late' | 'excused';
+    remark?: string;
+    markedBy: User;
+    createdAt: string;
+    updatedAt: string;
+}
+
+export interface Grade {
+    _id: string;
+    studentId: Student;
+    subjectId: Subject;
+    classId: Class;
+    term: string;
+    examtype: string;
+    marks: number;
+    maxMarks: number;
+    grade?: string;
+    remark?: string;
+    acedemicyear: string;
+    enteredBy: User;
+}
+
+export interface Fee {
+    _id: string;
+    studentId: Student;
+    feeType: string;
+    amount: number;
+    paidAmount: number;
+    dueDate: string;
+    paidDate?: string;
+    status: 'pending' | 'paid' | 'partially_paid' | 'overdue';
+    acedemicYear: string;
+    term: string;
+    description?: string;
+    paymentMethod?: string;
+    transactionId?: string;
+}
+
+export interface Book {
+    _id: string;
+    title: string;
+    author: string;
+    isbn: string;
+    category: string;
+    quantity: number;
+    availableQuantity: number;
+    publiser?: string;
+    publicationYear?: number;
+    shelfLocation: string;
+    isActive: boolean;
+}
+
+export interface LibraryIssue {
+    _id: string;
+    bookId: Book;
+    studentId: Student;
+    issueDate: string;
+    dueDate: string;
+    returnDate?: string;
+    status: 'issued' | 'returned' | 'overdue';
+    fine: number;
+    finePaid: boolean;
+    issuedBy: User;
+    remark?: string;
+}
+
+export interface TransportRoute {
+    _id: string;
+    routeNumber: string;
+    routeName: string;
+    vehicleNumber: string;
+    driverName: string;
+    driverPhone: string;
+    capacity: number;
+    pickupPoints: Array<{
+        location: string;
+        time: string;
+    }>;
+    fee: number;
+    isActive: boolean;
+}
+
+export interface TransportAssignment {
+    _id: string;
+    studentId: Student;
+    routeId: TransportRoute;
+    pickupPoint: string;
+    academicYear: string;
+    isActive: boolean;
+}
+
+export interface ReportShedule {
+    _id: string;
+    userId: string;
+    reportType: 'grades' | 'fees' | 'library';
+    frequency: 'daily' | 'weekly' | 'monthly';
+    time: string;
+    dayOfWeek?: number;
+    dayOdMonth?: number;
+    isActive: boolean;
+    lastSent?: string;
+}
