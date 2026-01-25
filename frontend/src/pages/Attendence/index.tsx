@@ -66,6 +66,45 @@ const Attendence: React.FC = () => {
         setStats(stats);
     };
 
+    const markAttendance = (studentId: string, status: 'present' | 'absent' | 'late' | 'excused') => {
+        const newAttendance = new Map(attendance);
+        newAttendance.set(studentId, status);
+        setAttendance(newAttendance);
+        caclculateStats(newAttendance);
+    };
+
+    const markAllPresent = () => {
+        const newAttendance = new Map<string, string>();
+        students.forEach((student: Student)=> newAttendance.set(student._id, 'present'));
+        setAttendance(newAttendance);
+        calculateStats(newAttendance);
+    };
+
+    const submitAttendance = async () => {
+        if(!selectedClass){
+            toast.error('Please select a class');
+            return;
+        }
+
+        setLoading(true);
+        try {
+            const attendanceRecords = students.map((student: Student) => ({
+                studentId: student._id,
+                classId: selectedClass,
+                date: selectedDate,
+                status: attendance.get(student._id) || 'absent',
+            }));
+
+            await api.post('/attendance',{attendanceRecords});
+            toast.success('Attendance submitted successfully');
+            fetchAttendance()
+        } catch(error : any){
+            toast.error(error.response?.data?.message || 'Failed to submit attendance');
+        } finally {
+            setLoading(false);
+        }
+    };
+
     return (
         <div className="space-y-6">
             <h1 className="text-3xl font-bold text-gray-900">Attendance Tracking</h1>
