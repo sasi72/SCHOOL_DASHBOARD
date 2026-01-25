@@ -79,7 +79,7 @@ export interface Subject {
     isActive: boolean;
 }
 
-export interface Attendence {
+export interface Attendance {
     _id: string;
     studentId: Student;
     classId: Class;
