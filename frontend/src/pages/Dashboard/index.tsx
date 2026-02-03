@@ -68,6 +68,16 @@ const Dashboard: React.FC = () => {
                 .filter((fee: any) => fee.status === 'pending' || fee.status === 'partial')
                 .reduce((sum: number, fee: any) => sum + (fee.totalAmount - fee.paidAmount),0);
                 
+                const avgAttendanceRate = attendance.averageRate || 0;
+
+                setStats({
+                    totalStudents: students.length,
+                    totalTeachers: teachers.length,
+                    attendanceRate: avgAttendanceRate,
+                    pendingFees: pendingFeesTotal,
+                    totalClasses: classes.length,
+                    activeRoutes: routes.length,
+                });
         }catch(error: any){
             console.error('Error fetching dashboard data:', error);
             toast.error(error.response?.data?.message || 'Failed to load dashboard data');
