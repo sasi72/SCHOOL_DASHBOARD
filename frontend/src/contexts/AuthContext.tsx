@@ -6,7 +6,7 @@ import { User } from '../types';
 import toast from 'react-hot-toast';
 
 interface AuthContextType {
-    user: User | null;
+    user: User | any;
     loading: boolean;
     login: (email: string, password: string) => Promise<void>;
     register: (data: any) => Promise<void>;
